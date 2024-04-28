@@ -12,7 +12,7 @@ const app = express();
 app.use(bodyParser.json());
 
 // MongoDB connection string
-const dbConnectionString = "mongodb+srv://DSYASWANTH:p21J9xePZlmXUJrE@cluster0.gwgsuah.mongodb.net/?retryWrites=true&w=majority";
+const dbConnectionString = "mongodb+srv://DSYASWANTH2:p21J9xePZlmXUJrE@cluster0.gwgsuah.mongodb.net/?retryWrites=true&w=majority";
 
 // Connect to MongoDB using the connection string
 mongoose.connect(dbConnectionString, {
