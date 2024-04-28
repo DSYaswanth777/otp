@@ -1,8 +1,8 @@
 const axios = require("axios");
-
+const dotenv = require("dotenv");
+dotenv.config();
 const OTP_REGENERATION_LIMIT = 3;
 const apiKey = process.env.FAST2SMS_API_KEY;
-
 async function sendOtp(mobile, otpRegenerationCount = 0) {
   if (otpRegenerationCount >= OTP_REGENERATION_LIMIT) {
     throw new Error("OTP regeneration limit exceeded");

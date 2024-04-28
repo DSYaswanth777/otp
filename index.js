@@ -5,20 +5,26 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const sendOtp = require("./utilities/sendOtp");
 const cors = require("cors");
+const dotenv = require("dotenv");
 
+dotenv.config();
 const app = express();
 
 // Middleware
 app.use(bodyParser.json());
 
 // MongoDB connection string
-const dbConnectionString =
-  "mongodb+srv://DSYASWANTH2:eAfbLbX52Mkq3Lcw@cluster0.mzk8j1i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const dbConnectionString =process.env.MONGODB;
+// console.log(dbConnectionString)
 // Connect to MongoDB using the connection string
-mongoose.connect(dbConnectionString, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+mongoose.connect(dbConnectionString)
+  .then(() => {
+    // console.log("Connected to MongoDB");
+  })
+  .catch(error => {
+    console.error("Error connecting to MongoDB:", error);
+  });
+
 const corsOptions = {
   origin: "*",
   credentials: true,
@@ -70,7 +76,7 @@ app.post("/verifyotp", async (req, res) => {
 app.get("/", (req, res) => {
   res.send("Hey this is my API running 🥳");
 });
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
