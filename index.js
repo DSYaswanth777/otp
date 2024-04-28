@@ -12,8 +12,8 @@ const app = express();
 app.use(bodyParser.json());
 
 // MongoDB connection string
-const dbConnectionString = "mongodb+srv://DSYASWANTH2:p21J9xePZlmXUJrE@cluster0.gwgsuah.mongodb.net/?retryWrites=true&w=majority";
-
+const dbConnectionString =
+  "mongodb+srv://DSYASWANTH2:eAfbLbX52Mkq3Lcw@cluster0.mzk8j1i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 // Connect to MongoDB using the connection string
 mongoose.connect(dbConnectionString, {
   useNewUrlParser: true,
@@ -45,11 +45,7 @@ app.post("/sendotp", async (req, res) => {
   try {
     const otp = await sendOtp(mobile);
     // Save user to database or update existing user's OTP
-    await User.findOneAndUpdate(
-      { mobile },
-      { mobile, otp },
-      { upsert: true }
-    );
+    await User.findOneAndUpdate({ mobile }, { mobile, otp }, { upsert: true });
     res.json({ success: true, message: "OTP sent successfully" });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
