@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const sendOtp = require("./utilities/sendOtp");
+const cors = require("cors");
 
 const app = express();
 
@@ -18,6 +19,10 @@ mongoose.connect(dbConnectionString, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
+const corsOptions = {
+  origin: "*",
+  credentials: true,
+};
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 db.once("open", () => {
@@ -33,6 +38,7 @@ const userSchema = new mongoose.Schema({
 // Define a model based on the schema
 const User = mongoose.model("User", userSchema);
 
+app.use(cors(corsOptions));
 // Route to send OTP
 app.post("/sendotp", async (req, res) => {
   const { mobile } = req.body;
