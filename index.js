@@ -49,6 +49,11 @@ app.use(cors(corsOptions));
 app.post("/sendotp", async (req, res) => {
   const { mobile } = req.body;
   try {
+    // Check if mobile number is provided
+    if (!mobile) {
+      return res.status(400).json({ success: false, message: "Mobile number is required" });
+    }
+
     const otp = await sendOtp(mobile);
     // Save user to database or update existing user's OTP
     await User.findOneAndUpdate({ mobile }, { mobile, otp }, { upsert: true });
@@ -62,6 +67,11 @@ app.post("/sendotp", async (req, res) => {
 app.post("/verifyotp", async (req, res) => {
   const { mobile, otp } = req.body;
   try {
+    // Check if mobile number and OTP are provided
+    if (!mobile || !otp) {
+      return res.status(400).json({ success: false, message: "Mobile number and OTP are required" });
+    }
+
     const user = await User.findOne({ mobile, otp });
     if (user) {
       // User verified successfully
@@ -73,6 +83,7 @@ app.post("/verifyotp", async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 });
+
 app.get("/", (req, res) => {
   res.send("Hey this is my API running 🥳");
 });
